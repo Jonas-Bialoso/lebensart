@@ -242,6 +242,18 @@
       height: 56.25vw;
       min-width: 100%;
       min-height: 100%;
+      pointer-events: none; /* Bloqueia hover/click do YouTube (overlay nativo) */
+    }
+    /* Quando pausado pelo botão: esconde iframe e mostra imagem
+       (pra cobrir o "play grande" do YouTube que aparece no estado paused) */
+    .hero-media.is-video-paused .hero-media__iframe-wrap {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    }
+    .hero-media.is-video-paused .hero-media__fallback {
+      opacity: 1 !important;
+      transition: opacity 0.3s ease;
     }
     .hero-media__overlay {
       position: absolute;
@@ -2030,6 +2042,7 @@
         isPaused = !isPaused;
         send(isPaused ? 'pauseVideo' : 'playVideo');
         toggle.classList.toggle('is-paused', isPaused);
+        heroMedia.classList.toggle('is-video-paused', isPaused);
         toggle.setAttribute('aria-label', isPaused ? 'Reproduzir vídeo' : 'Pausar vídeo');
         toggle.setAttribute('aria-pressed', String(isPaused));
       });
