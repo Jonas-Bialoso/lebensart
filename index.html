@@ -216,10 +216,22 @@
       overflow: hidden;
       background: #111;
     }
+    .hero-media__fallback {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      transition: opacity 1.2s ease;
+      will-change: opacity;
+    }
+    .hero-media.is-video-loaded .hero-media__fallback { opacity: 0; }
     .hero-media__iframe-wrap {
       position: absolute;
       inset: 0;
       pointer-events: none;
+      z-index: 2;
     }
     .hero-media__iframe-wrap iframe {
       position: absolute;
@@ -235,13 +247,8 @@
       position: absolute;
       inset: 0;
       background: rgba(0,0,0,0.2);
-    }
-    .hero-media__fallback {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      z-index: 3;
+      pointer-events: none;
     }
     .hero-media__pattern {
       position: absolute;
@@ -251,6 +258,7 @@
       width: 500px;
       height: 117px;
       pointer-events: none;
+      z-index: 4;
     }
 
     /* ============================================================
@@ -1952,6 +1960,31 @@
 <!-- Lenis (smooth scroll) -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.21/dist/lenis.min.js"></script>
 <script>
+  /* ===== Hero video — fade-out da imagem fallback quando iframe carrega ===== */
+  (function(){
+    const heroMedia = document.querySelector('.hero-media');
+    const iframe = heroMedia && heroMedia.querySelector('iframe');
+    if (!heroMedia || !iframe) return;
+
+    let loaded = false;
+    function reveal() {
+      if (loaded) return;
+      loaded = true;
+      heroMedia.classList.add('is-video-loaded');
+    }
+
+    /* Iframe da YouTube dispara 'load' quando o player embed termina de baixar */
+    iframe.addEventListener('load', () => {
+      /* Atraso de 800ms pra dar tempo do vídeo começar a tocar de fato.
+         Se ficar preto antes do vídeo, sobe pra 1500ms. */
+      setTimeout(reveal, 800);
+    }, { once: true });
+
+    /* Failsafe: se algum motivo bloquear o load (autoplay policy), revelamos
+       depois de 5s pra não deixar a imagem fixa pra sempre */
+    setTimeout(reveal, 5000);
+  })();
+
   /* ===== Lenis smooth scroll (desktop only) ===== */
   (function(){
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
