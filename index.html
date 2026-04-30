@@ -227,30 +227,16 @@
       will-change: opacity;
     }
     .hero-media.is-video-loaded .hero-media__fallback { opacity: 0; }
-    .hero-media__iframe-wrap {
+    .hero-media__video {
       position: absolute;
       inset: 0;
-      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       z-index: 2;
+      pointer-events: none;
     }
-    .hero-media__iframe-wrap iframe {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 177.78vh; /* 16:9 */
-      height: 56.25vw;
-      min-width: 100%;
-      min-height: 100%;
-      pointer-events: none; /* Bloqueia hover/click do YouTube (overlay nativo) */
-    }
-    /* Quando pausado pelo botão: esconde iframe e mostra imagem
-       (pra cobrir o "play grande" do YouTube que aparece no estado paused) */
-    .hero-media.is-video-paused .hero-media__iframe-wrap {
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-    }
+    /* Quando pausado pelo botão: imagem fallback reaparece sobre o video */
     .hero-media.is-video-paused .hero-media__fallback {
       opacity: 1 !important;
       transition: opacity 0.3s ease;
@@ -1575,18 +1561,19 @@
     </div>
 
     <div class="hero-media">
-      <!-- YouTube background video -->
-      <div class="hero-media__iframe-wrap">
-        <iframe
-          id="hero-yt"
-          src="https://www.youtube.com/embed/FvAxpi86xJ8?autoplay=1&mute=1&loop=1&controls=0&playlist=FvAxpi86xJ8&rel=0&showinfo=0&modestbranding=1&enablejsapi=1"
-          title="Lebensart"
-          frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
-        </iframe>
-      </div>
-      <!-- Fallback image -->
+      <!-- HTML5 background video -->
+      <video
+        id="hero-video"
+        class="hero-media__video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="assets/img/619d0366-247b-415b-8517-64b643678f42.webp">
+        <source src="assets/video/hero.mp4" type="video/mp4">
+      </video>
+      <!-- Fallback image (também usada como poster do video) -->
       <img class="hero-media__fallback" src="assets/img/619d0366-247b-415b-8517-64b643678f42.webp" alt="Lebensart — fachada do empreendimento">
       <div class="hero-media__overlay"></div>
       <img class="hero-media__pattern" src="assets/img/58c3c7b8-5e0c-443a-9953-c70c415a0461.svg" alt="">
@@ -2014,37 +2001,26 @@
 <!-- Lenis (smooth scroll) -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.21/dist/lenis.min.js"></script>
 <script>
-  /* ===== Hero video — fade-out da imagem fallback + play/pause toggle ===== */
+  /* ===== Hero video — HTML5 nativo, fade-out fallback + play/pause toggle ===== */
   (function(){
     const heroMedia = document.querySelector('.hero-media');
-    const iframe = heroMedia && heroMedia.querySelector('iframe');
+    const video = document.getElementById('hero-video');
     const toggle = document.getElementById('hero-toggle');
-    if (!heroMedia || !iframe) return;
+    if (!heroMedia || !video) return;
 
-    let loaded = false;
-    function reveal() {
-      if (loaded) return;
-      loaded = true;
+    /* Fade-out da imagem fallback quando o video tem dados pra começar a tocar */
+    video.addEventListener('playing', () => {
       heroMedia.classList.add('is-video-loaded');
-    }
-
-    iframe.addEventListener('load', () => {
-      setTimeout(reveal, 800);
     }, { once: true });
-    setTimeout(reveal, 5000);
+    /* Failsafe — se autoplay for bloqueado, revela depois de 5s mesmo */
+    setTimeout(() => heroMedia.classList.add('is-video-loaded'), 5000);
 
-    /* Play/pause via YouTube IFrame postMessage (enablejsapi=1 ativado na URL) */
+    /* Play/pause direto na API nativa */
     if (toggle) {
-      let isPaused = false;
-      function send(func) {
-        iframe.contentWindow.postMessage(
-          JSON.stringify({ event: 'command', func, args: '' }),
-          '*'
-        );
-      }
       toggle.addEventListener('click', () => {
-        isPaused = !isPaused;
-        send(isPaused ? 'pauseVideo' : 'playVideo');
+        const isPaused = !video.paused;
+        if (isPaused) video.pause();
+        else video.play();
         toggle.classList.toggle('is-paused', isPaused);
         heroMedia.classList.toggle('is-video-paused', isPaused);
         toggle.setAttribute('aria-label', isPaused ? 'Reproduzir vídeo' : 'Pausar vídeo');
