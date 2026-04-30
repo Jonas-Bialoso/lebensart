@@ -2078,7 +2078,8 @@
     if (!('IntersectionObserver' in window)) return;
     document.body.classList.add('has-reveal');
 
-    /* Selectors that should reveal on scroll */
+    /* Selectors that should reveal on scroll
+       (Footer excluído — fica sempre visível, sem fade-in) */
     const REVEAL_SELECTORS = [
       '.hero-info', '.hero-bar', '.hero-media',
       '.carac-image', '.carac-title', '.carac-item',
@@ -2090,8 +2091,7 @@
       '.plantas-title', '.plantas-meta', '.plantas-header > .galeria-nav-row',
       '.localizacao-title', '.localizacao-text',
       '.map-section img',
-      '.cta-title', '.cta-text', '.cta-btn',
-      '.footer-contact', '.footer-social', '.footer-logo-wrap', '.footer-bottom'
+      '.cta-title', '.cta-text', '.cta-btn'
     ];
 
     /* Tag elements + assign stagger index for siblings */
