@@ -1949,10 +1949,8 @@
   </div>
 </div>
 
-<!-- Lenis (smooth scroll) + GSAP + ScrollTrigger -->
+<!-- Lenis (smooth scroll) -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.21/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
   /* ===== Lenis smooth scroll (desktop only) ===== */
   (function(){
@@ -1994,104 +1992,6 @@
     });
   })();
 
-  /* ===== GSAP + ScrollTrigger — efeitos sofisticados ===== */
-  (function(){
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    /* Remove .reveal de elementos que GSAP vai animar (evita double-transform) */
-    const gsapManagedSelectors = '.carac-item, .carac-image, .sobre-img-col, .porsche-left, .hero-media';
-    document.querySelectorAll(gsapManagedSelectors).forEach((el) => el.classList.remove('reveal'));
-
-    /* Sincroniza Lenis com ScrollTrigger (assim parallax acompanha o scroll suave) */
-    if (window.__lenis) {
-      window.__lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => window.__lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-    }
-
-    /* ---------- 1. Parallax sutil em imagens grandes ---------- */
-    /* Estratégia: imagem move yPercent ao longo do range scroll da seção que a contém.
-       Valor pequeno (-8 a 8) pra não ficar exagerado. */
-    const parallaxTargets = [
-      { sel: '.carac-image img',         from: -8,  to: 8 },
-      { sel: '.sobre-img-col img',        from: -10, to: 10 },
-      { sel: '.porsche-left__img img',    from: -6,  to: 6 },
-      { sel: '.hero-media__fallback',     from: 0,   to: 12 }, // hero rola pra baixo enquanto scrolla (efeito de profundidade)
-    ];
-    parallaxTargets.forEach(({ sel, from, to }) => {
-      document.querySelectorAll(sel).forEach((el) => {
-        gsap.fromTo(el,
-          { yPercent: from },
-          {
-            yPercent: to,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: el.closest('section') || el.parentElement,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            }
-          }
-        );
-      });
-    });
-
-    /* ---------- 2. Característica items — reveal scrubbed ---------- */
-    /* Cada item revela conforme entra no viewport, com leve translateX alternando lados */
-    document.querySelectorAll('.carac-item').forEach((el, i) => {
-      const fromX = i % 2 === 0 ? -30 : 30;
-      gsap.fromTo(el,
-        { opacity: 0, x: fromX },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          }
-        }
-      );
-    });
-
-    /* ---------- 3. Pin sutil — Sobre header fica fixo enquanto cards passam (desktop) ---------- */
-    if (window.matchMedia('(min-width: 769px)').matches) {
-      const sobreHeader = document.querySelector('.sobre-header');
-      const sobreCards = document.querySelector('.sobre-cards');
-      if (sobreHeader && sobreCards) {
-        ScrollTrigger.create({
-          trigger: sobreHeader,
-          start: 'top 100px',
-          endTrigger: sobreCards,
-          end: 'bottom 80%',
-          pin: false, // não fixa de fato (causaria overlap com sticky header)
-          // Em vez disso, animamos um leve fade no header conforme passa
-        });
-
-        gsap.fromTo(sobreHeader,
-          { opacity: 1 },
-          {
-            opacity: 0.6,
-            scrollTrigger: {
-              trigger: sobreCards,
-              start: 'top 50%',
-              end: 'top 20%',
-              scrub: true,
-            }
-          }
-        );
-      }
-    }
-
-    /* ---------- 4. Refresh ScrollTrigger quando Lenis ajusta ---------- */
-    ScrollTrigger.refresh();
-  })();
-
   /* ===== Reveal-on-scroll (subtle fade + translateY) ===== */
   (function(){
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2099,14 +1999,13 @@
     if (!('IntersectionObserver' in window)) return;
     document.body.classList.add('has-reveal');
 
-    /* Selectors that should reveal on scroll
-       (Elementos com GSAP parallax/scrub são excluídos pra evitar conflito de transform) */
+    /* Selectors that should reveal on scroll */
     const REVEAL_SELECTORS = [
-      '.hero-info', '.hero-bar',
-      '.carac-title',
+      '.hero-info', '.hero-bar', '.hero-media',
+      '.carac-image', '.carac-title', '.carac-item',
       '.sobre-header__title', '.sobre-header__pattern',
-      '.sobre-card',
-      '.porsche-right',
+      '.sobre-card', '.sobre-img-col',
+      '.porsche-left', '.porsche-right',
       '.galeria-title', '.galeria-desc', '.galeria-nav-row', '.galeria-track-wrap', '.galeria-dots',
       '.diferenciais-title', '.diferenciais-btn', '.card-featured', '.card-item',
       '.plantas-title', '.plantas-meta', '.plantas-header > .galeria-nav-row',
