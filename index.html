@@ -258,11 +258,11 @@
     .hero-media__overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.35);
       z-index: 3;
-      /* pointer-events: auto (default) bloqueia hover/click no iframe do YouTube,
-         escondendo os controles nativos. O botão de play/pause (z-index 5)
-         continua funcionando por estar acima. */
+      /* pointer-events: auto (default) bloqueia hover/click no iframe do YouTube.
+         Opacidade 0.35 também atenua os controles nativos do YT que renderizam
+         por baixo (caso apareçam por buffering/etc) — ficam quase imperceptíveis. */
     }
     .hero-media__pattern {
       position: absolute;
@@ -273,7 +273,11 @@
       height: 117px;
       pointer-events: none;
       z-index: 4;
+      transition: opacity 1.2s ease;
     }
+    /* Pattern segue a mesma lógica do fallback: visível quando vídeo não está tocando */
+    .hero-media.is-video-loaded .hero-media__pattern { opacity: 0; }
+    .hero-media.is-video-paused .hero-media__pattern { opacity: 1; }
     /* Play/pause toggle — luxo: sutil, canto inferior direito */
     .hero-media__toggle {
       position: absolute;
