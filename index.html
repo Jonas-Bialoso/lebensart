@@ -260,6 +260,33 @@
       pointer-events: none;
       z-index: 4;
     }
+    /* Play/pause toggle — luxo: sutil, canto inferior direito */
+    .hero-media__toggle {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      z-index: 5;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: var(--color-light);
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+      backdrop-filter: blur(4px);
+      opacity: 0.7;
+    }
+    .hero-media__toggle:hover {
+      background: rgba(0,0,0,0.6);
+      border-color: rgba(255,255,255,0.55);
+      opacity: 1;
+    }
+    .hero-media__toggle .icon-play { display: none; }
+    .hero-media__toggle.is-paused .icon-pause { display: none; }
+    .hero-media__toggle.is-paused .icon-play { display: block; }
 
     /* ============================================================
        2. CARACTERÍSTICAS
@@ -1533,7 +1560,8 @@
       <!-- YouTube background video -->
       <div class="hero-media__iframe-wrap">
         <iframe
-          src="https://www.youtube.com/embed/FvAxpi86xJ8?autoplay=1&mute=1&loop=1&controls=0&playlist=FvAxpi86xJ8&rel=0&showinfo=0&modestbranding=1"
+          id="hero-yt"
+          src="https://www.youtube.com/embed/FvAxpi86xJ8?autoplay=1&mute=1&loop=1&controls=0&playlist=FvAxpi86xJ8&rel=0&showinfo=0&modestbranding=1&enablejsapi=1"
           title="Lebensart"
           frameborder="0"
           allow="autoplay; encrypted-media"
@@ -1544,6 +1572,14 @@
       <img class="hero-media__fallback" src="assets/img/619d0366-247b-415b-8517-64b643678f42.webp" alt="Lebensart — fachada do empreendimento">
       <div class="hero-media__overlay"></div>
       <img class="hero-media__pattern" src="assets/img/58c3c7b8-5e0c-443a-9953-c70c415a0461.svg" alt="">
+      <button type="button" class="hero-media__toggle" id="hero-toggle" aria-label="Pausar vídeo" aria-pressed="false">
+        <svg class="icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/>
+        </svg>
+        <svg class="icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path d="M8 5v14l11-7z" fill="currentColor"/>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
@@ -1960,10 +1996,11 @@
 <!-- Lenis (smooth scroll) -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.21/dist/lenis.min.js"></script>
 <script>
-  /* ===== Hero video — fade-out da imagem fallback quando iframe carrega ===== */
+  /* ===== Hero video — fade-out da imagem fallback + play/pause toggle ===== */
   (function(){
     const heroMedia = document.querySelector('.hero-media');
     const iframe = heroMedia && heroMedia.querySelector('iframe');
+    const toggle = document.getElementById('hero-toggle');
     if (!heroMedia || !iframe) return;
 
     let loaded = false;
@@ -1973,16 +2010,28 @@
       heroMedia.classList.add('is-video-loaded');
     }
 
-    /* Iframe da YouTube dispara 'load' quando o player embed termina de baixar */
     iframe.addEventListener('load', () => {
-      /* Atraso de 800ms pra dar tempo do vídeo começar a tocar de fato.
-         Se ficar preto antes do vídeo, sobe pra 1500ms. */
       setTimeout(reveal, 800);
     }, { once: true });
-
-    /* Failsafe: se algum motivo bloquear o load (autoplay policy), revelamos
-       depois de 5s pra não deixar a imagem fixa pra sempre */
     setTimeout(reveal, 5000);
+
+    /* Play/pause via YouTube IFrame postMessage (enablejsapi=1 ativado na URL) */
+    if (toggle) {
+      let isPaused = false;
+      function send(func) {
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func, args: '' }),
+          '*'
+        );
+      }
+      toggle.addEventListener('click', () => {
+        isPaused = !isPaused;
+        send(isPaused ? 'pauseVideo' : 'playVideo');
+        toggle.classList.toggle('is-paused', isPaused);
+        toggle.setAttribute('aria-label', isPaused ? 'Reproduzir vídeo' : 'Pausar vídeo');
+        toggle.setAttribute('aria-pressed', String(isPaused));
+      });
+    }
   })();
 
   /* ===== Lenis smooth scroll (desktop only) ===== */
