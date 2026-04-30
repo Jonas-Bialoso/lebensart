@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lebensart — Vale do Sereno</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --color-light: #E1DFE1;
+      --color-medium: #79797E;
+      --color-dark: #222228;
+      --font-heading: 'Vinila', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-body: 'Sora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --px: 32px;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--color-dark); color: var(--color-light); overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+
+    /* ===== SHARED ===== */
+    .italic-dim { font-style: italic; color: rgba(34,34,40,0.7); }
+    .italic-dim-light { font-style: italic; color: rgba(225,223,225,0.7); }
+
+    /* ============================================================
+       1. HERO
+    ============================================================ */
+    .hero-section {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--px);
+      height: 72px;
+      border-bottom: 1px solid rgba(225,223,225,0.1);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: #000;
+    }
+    .site-header__logo { height: 40px; display: flex; align-items: center; }
+    .site-header__logo img { height: 40px; width: auto; }
+    .site-header__logo img.site-header__logo--mobile { display: none; }
+    .site-header__menu {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-left: 1px solid rgba(225,223,225,0.1);
+      padding: 24px 0 32px 24px;
+      color: var(--color-light);
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+    .site-header__menu img { width: 68px; height: 16px; }
+
+    /* Hero body */
+    .hero-body {
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+      padding: 120px var(--px) 40px;
+    }
+    .hero-info {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 68px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-light);
+      max-width: 827px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 299px;
+    }
+    .hero-meta__tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--color-light);
+      line-height: 1.5;
+    }
+    .hero-meta__tag img { width: 6px; height: 6px; flex-shrink: 0; }
+    .hero-meta__desc {
+      padding-left: 18px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-light);
+      line-height: 1.5;
+      max-width: 281px;
+    }
+    .hero-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 32px;
+      border-top: 1px solid rgba(225,223,225,0.2);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-light);
+      line-height: 1.5;
+    }
+    .hero-bar img { width: 24px; height: 24px; }
+
+    /* Hero video/image */
+    .hero-media {
+      position: relative;
+      width: 100%;
+      height: 703px;
+      overflow: hidden;
+      background: #111;
+    }
+    .hero-media__iframe-wrap {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-media__iframe-wrap iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 177.78vh; /* 16:9 */
+      height: 56.25vw;
+      min-width: 100%;
+      min-height: 100%;
+    }
+    .hero-media__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+    }
+    .hero-media__fallback {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-media__pattern {
+      position: absolute;
+      left: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 500px;
+      height: 117px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       2. CARACTERÍSTICAS
+    ============================================================ */
+    .carac-section {
+      background: var(--color-light);
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      padding: 120px var(--px);
+    }
+    .carac-image {
+      flex-shrink: 0;
+      width: 487px;
+      height: 654px;
+      position: relative;
+      overflow: hidden;
+    }
+    .carac-image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .carac-content {
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      flex: 1;
+    }
+    .carac-title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-dark);
+      text-align: right;
+      max-width: 576px;
+      align-self: flex-end;
+    }
+    .carac-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 32px;
+      row-gap: 32px;
+      width: 100%;
+    }
+    .carac-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(34,34,40,0.1);
+    }
+    .carac-item__text {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      max-width: 293px;
+    }
+    .carac-item__num {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--color-medium);
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       3. SOBRE (texto + imagens)
+    ============================================================ */
+    .sobre-section {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+    }
+    .sobre-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 120px var(--px) 0;
+    }
+    .sobre-header__title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-light);
+      max-width: 554px;
+    }
+    .sobre-header__pattern { width: 342px; height: 80px; }
+    .sobre-cards {
+      display: flex;
+      align-items: stretch;
+      border-top: 1px solid rgba(225,223,225,0.2);
+      border-bottom: 1px solid rgba(225,223,225,0.2);
+      padding: 0 var(--px);
+    }
+    .sobre-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+      padding: 32px;
+      border-left: 1px solid rgba(225,223,225,0.2);
+      border-right: 1px solid rgba(225,223,225,0.2);
+      position: relative;
+    }
+    .sobre-card + .sobre-card { border-left: none; }
+    .sobre-card__num {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.5;
+      color: #fff;
+    }
+    .sobre-card__subtitle {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.5;
+    }
+    .sobre-card__text {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--color-light);
+      line-height: 1.5;
+      margin-top: 24px;
+    }
+    /* Corner dots for sobre cards */
+    .sobre-card::before {
+      content: ''; position: absolute; width: 4px; height: 4px;
+      background: rgba(225,223,225,0.2); top: 0; left: -1px;
+    }
+    .sobre-card::after {
+      content: ''; position: absolute; width: 4px; height: 4px;
+      background: rgba(225,223,225,0.2); bottom: 0; left: -1px;
+    }
+    .sobre-images {
+      display: flex;
+      gap: 56px;
+      padding: 0 var(--px);
+    }
+    .sobre-img-col { flex: 1; position: relative; }
+    .sobre-img-col--right { padding-top: 56px; }
+    .sobre-img-col img {
+      width: 100%;
+      height: 673px;
+      object-fit: cover;
+    }
+
+    /* ============================================================
+       4. SOBRE PORSCHE
+    ============================================================ */
+    .porsche-section {
+      background: #000;
+      display: flex;
+      align-items: stretch;
+      gap: 56px;
+      padding: 120px var(--px);
+    }
+    .porsche-left {
+      background: #101010;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      padding: 32px 32px 48px;
+    }
+    .porsche-left__img {
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%;
+      overflow: hidden;
+    }
+    .porsche-left__img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .porsche-left__title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-light);
+    }
+    .porsche-right {
+      flex: 1;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px;
+      position: relative;
+    }
+    .porsche-right__arrow { width: 24px; height: 24px; }
+    .porsche-right__subtitle {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.5;
+      max-width: 516px;
+    }
+    .porsche-right__text {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--color-light);
+      line-height: 1.5;
+      max-width: 487px;
+      margin-top: 24px;
+    }
+    .corner-sq {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+    }
+    .corner-sq--tl { top: -1px; left: -1px; }
+    .corner-sq--tr { top: -1px; right: -1px; }
+    .corner-sq--br { bottom: -1px; right: -1px; }
+    .corner-sq--bl { bottom: -1px; left: -1px; }
+
+    /* ============================================================
+       5. GALERIA
+    ============================================================ */
+    .galeria-section {
+      background: var(--color-light);
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      padding: 120px var(--px);
+    }
+    .galeria-header { display: flex; flex-direction: column; gap: 32px; }
+    .galeria-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .galeria-title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-dark);
+      max-width: 385px;
+    }
+    .galeria-desc {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      max-width: 389px;
+    }
+    .galeria-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 32px;
+      border-top: 1px solid rgba(34,34,40,0.1);
+    }
+    .galeria-label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+    }
+    .galeria-nav { display: flex; align-items: center; gap: 16px; }
+    .galeria-nav button {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .galeria-nav button img { width: 32px; height: 32px; transition: opacity 0.2s ease; }
+    .galeria-nav button:not([disabled]) { cursor: pointer; }
+    .galeria-nav button:not([disabled]):hover { transform: translateX(-2px); }
+    .galeria-nav button:not([disabled]).btn-next-galeria:hover,
+    .galeria-nav button:not([disabled]).btn-next-plantas:hover { transform: translateX(2px); }
+    .galeria-nav button:not([disabled]):hover img { opacity: 0.6; }
+    .galeria-nav button[disabled] {
+      cursor: default;
+      pointer-events: none;
+    }
+    .galeria-nav button[disabled] img { opacity: 0.25; }
+    .galeria-track img { cursor: pointer; transition: opacity 0.2s ease; }
+    .galeria-track img:hover { opacity: 0.92; }
+    .galeria-track-wrap { overflow: hidden; }
+    .galeria-track {
+      display: flex;
+      gap: 32px;
+      transition: transform 0.4s ease;
+    }
+    .galeria-track img {
+      height: 369px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+    .galeria-dots { display: flex; gap: 6px; align-items: center; margin-top: 48px; }
+    .galeria-dot {
+      width: 6px;
+      height: 6px;
+      background: rgba(34,34,40,0.24);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .galeria-dot.active { background: var(--color-dark); }
+
+    /* ============================================================
+       6. DIFERENCIAIS
+    ============================================================ */
+    .diferenciais-section {
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      padding: 120px var(--px);
+    }
+    .diferenciais-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .diferenciais-title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-dark);
+    }
+    .diferenciais-btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+    .diferenciais-btn__icon {
+      background: var(--color-dark);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .diferenciais-btn__icon img { width: 24px; height: 24px; }
+    .diferenciais-btn__label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .diferenciais-grid { display: flex; }
+    .card-featured {
+      background: #000;
+      width: 314px;
+      height: 444px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .card-featured__icon img { width: 24px; height: 24px; }
+    .card-featured__pattern {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 398px;
+      height: 93px;
+      pointer-events: none;
+    }
+    .card-featured__label {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+    }
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .card-item {
+      width: calc(100% / 3);
+      height: 222px;
+      padding: 32px;
+      border-top: 1px solid rgba(34,34,40,0.1);
+      border-right: 1px solid rgba(34,34,40,0.1);
+      border-bottom: 1px solid rgba(34,34,40,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-item:nth-child(n+4) { border-top: none; }
+    .card-item__icon img { width: 24px; height: 24px; }
+    .card-item__label {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       7. GALERIA PLANTAS
+    ============================================================ */
+    .plantas-section {
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      padding: 120px var(--px);
+    }
+    .plantas-header { display: flex; flex-direction: column; gap: 32px; }
+    .plantas-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .plantas-title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-dark);
+      max-width: 530px;
+    }
+    .plantas-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 388px;
+    }
+    .plantas-meta__tag {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--color-dark);
+      line-height: 1.5;
+    }
+    .plantas-meta__tag img { width: 6px; height: 6px; flex-shrink: 0; margin-top: 7px; }
+    .plantas-meta__desc {
+      padding-left: 18px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      max-width: 370px;
+    }
+
+    /* ============================================================
+       8. LOCALIZAÇÃO
+    ============================================================ */
+    .localizacao-section {
+      background: var(--color-light);
+      display: flex;
+      border-bottom: 1px solid rgba(34,34,40,0.1);
+    }
+    .localizacao-left {
+      width: 550px;
+      flex-shrink: 0;
+      padding: 120px 56px 120px var(--px);
+      border-right: 1px solid rgba(34,34,40,0.1);
+      display: flex;
+      align-items: center;
+    }
+    .localizacao-title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-dark);
+      max-width: 386px;
+    }
+    .localizacao-right {
+      flex: 1;
+      padding: 120px var(--px);
+      display: flex;
+      align-items: center;
+    }
+    .localizacao-text {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      max-width: 826px;
+    }
+    .localizacao-text p + p { margin-top: 16px; }
+
+    /* ============================================================
+       9. MAP
+    ============================================================ */
+    .map-section {
+      background: var(--color-light);
+      padding: 0 var(--px);
+    }
+    .map-section img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+    }
+
+    /* ============================================================
+       10. CALL TO ACTION
+    ============================================================ */
+    .cta-section {
+      background: var(--color-light);
+      display: flex;
+      border-top: 1px solid rgba(34,34,40,0.1);
+    }
+    .cta-left {
+      width: 550px;
+      flex-shrink: 0;
+      padding: 120px 56px 120px var(--px);
+      border-right: 1px solid rgba(34,34,40,0.1);
+      display: flex;
+      align-items: center;
+    }
+    .cta-title {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-dark);
+      max-width: 433px;
+    }
+    .cta-right {
+      flex: 1;
+      padding: 120px var(--px);
+      display: flex;
+      align-items: center;
+      gap: 56px;
+    }
+    .cta-text {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      max-width: 461px;
+    }
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .cta-btn__icon {
+      background: var(--color-dark);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cta-btn__icon img { width: 24px; height: 24px; }
+    .cta-btn__label {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--color-dark);
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       MENU MODAL (5437:86)
+    ============================================================ */
+    body.menu-open { overflow: hidden; }
+
+    .menu-modal[hidden] { display: none; }
+    .menu-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: stretch;
+      justify-content: flex-end;
+      z-index: 1000;
+      animation: menu-fade 0.3s ease both;
+    }
+    .menu-modal__panel {
+      background: #000;
+      width: min(720px, 90vw);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      animation: menu-slide 0.35s ease both;
+    }
+    @keyframes menu-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes menu-slide {
+      from { transform: translateX(40px); opacity: 0; }
+      to   { transform: translateX(0); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .menu-modal, .menu-modal__panel { animation: none; }
+    }
+
+    .menu-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--px);
+      height: 72px;
+      border-bottom: 1px solid rgba(225,223,225,0.1);
+      flex-shrink: 0;
+    }
+    .menu-modal__title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-light);
+      line-height: normal;
+    }
+    .menu-modal__close {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-left: 1px solid rgba(225,223,225,0.1);
+      padding: 24px 0 32px 24px;
+      color: var(--color-light);
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+    .menu-modal__close img { width: 24px; height: 24px; }
+
+    .menu-modal__list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      padding: 32px;
+      flex: 1;
+      min-height: 0;
+      align-items: flex-start;
+      position: relative;
+    }
+    .menu-modal__link {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--color-light);
+      text-align: center;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .menu-modal__link:hover,
+    .menu-modal__link:focus {
+      color: #fff;
+      text-decoration: underline;
+      text-decoration-style: solid;
+    }
+
+    .menu-modal__pattern {
+      position: absolute;
+      bottom: 32px;
+      left: 32px;
+      width: 200px;
+      height: 46.748px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       LINK HOVER — animated underline (left → right)
+    ============================================================ */
+    .footer-contact a,
+    .footer-social__item,
+    .footer-links a,
+    .diferenciais-btn__label,
+    .cta-btn__label,
+    .fx-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .footer-contact a::after,
+    .footer-social__item::after,
+    .footer-links a::after,
+    .diferenciais-btn__label::after,
+    .cta-btn__label::after,
+    .fx-underline::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -3px;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.35s ease;
+    }
+    .footer-contact a:hover::after,
+    .footer-social__item:hover::after,
+    .footer-links a:hover::after,
+    .diferenciais-btn:hover .diferenciais-btn__label::after,
+    .cta-btn:hover .cta-btn__label::after,
+    .fx-underline:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* CTA / Diferenciais buttons (anchor reset + icon hover) */
+    .diferenciais-btn,
+    .cta-btn {
+      text-decoration: none;
+      color: inherit;
+    }
+    .diferenciais-btn__icon,
+    .cta-btn__icon {
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .diferenciais-btn:hover .diferenciais-btn__icon,
+    .cta-btn:hover .cta-btn__icon {
+      transform: translateX(2px);
+    }
+
+    /* ============================================================
+       LIGHTBOX (image viewer)
+    ============================================================ */
+    .lightbox[hidden] { display: none; }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: lb-fade 0.25s ease both;
+      user-select: none;
+    }
+    @keyframes lb-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .lightbox__stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox__img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      cursor: zoom-in;
+      transform-origin: center center;
+      transition: transform 0.2s ease;
+      will-change: transform;
+    }
+    .lightbox.is-zoomed .lightbox__img { cursor: grab; }
+    .lightbox.is-dragging .lightbox__img { cursor: grabbing; transition: none; }
+
+    .lightbox__btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 56px;
+      height: 56px;
+      border: 1px solid rgba(225,223,225,0.2);
+      background: rgba(0,0,0,0.4);
+      color: var(--color-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .lightbox__btn:hover { background: rgba(225,223,225,0.1); border-color: rgba(225,223,225,0.5); }
+    .lightbox__btn[disabled] { opacity: 0.25; cursor: default; pointer-events: none; }
+    .lightbox__prev { left: 32px; }
+    .lightbox__next { right: 32px; }
+
+    .lightbox__close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      color: var(--color-light);
+      border: 1px solid rgba(225,223,225,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      gap: 8px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox__close:hover { background: rgba(225,223,225,0.1); border-color: rgba(225,223,225,0.5); }
+
+    .lightbox__counter {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--color-light);
+      font-family: var(--font-heading);
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 16px;
+      border: 1px solid rgba(225,223,225,0.15);
+    }
+
+    .lightbox__zoom {
+      position: absolute;
+      bottom: 24px;
+      right: 32px;
+      display: flex;
+      gap: 8px;
+    }
+    .lightbox__zoom button {
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      color: var(--color-light);
+      border: 1px solid rgba(225,223,225,0.2);
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .lightbox__zoom button:hover { background: rgba(225,223,225,0.1); border-color: rgba(225,223,225,0.5); }
+
+    @media (max-width: 600px) {
+      .lightbox__prev, .lightbox__next { width: 44px; height: 44px; }
+      .lightbox__prev { left: 12px; }
+      .lightbox__next { right: 12px; }
+      .lightbox__close { top: 12px; right: 12px; }
+      .lightbox__zoom { right: 12px; bottom: 12px; }
+    }
+
+    /* ============================================================
+       11. FOOTER
+    ============================================================ */
+    .site-footer {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      padding: 120px var(--px) 40px;
+    }
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 80px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .footer-contact a {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-light);
+    }
+    .footer-social { display: flex; align-items: center; gap: 32px; }
+    .footer-social__item {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--color-light);
+      line-height: 1.5;
+    }
+    .footer-social__divider {
+      height: 16px;
+      width: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+    .footer-logo-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1376 / 142;
+      overflow: hidden;
+    }
+    .footer-logo-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: left center;
+    }
+    .footer-letter {
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    /* Fallback big text for footer logo if image fails */
+    .footer-logo-text {
+      font-family: var(--font-heading);
+      font-size: clamp(60px, 10vw, 142px);
+      font-weight: 300;
+      line-height: 1;
+      color: var(--color-medium);
+      letter-spacing: -0.02em;
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-light);
+    }
+    .footer-links { display: flex; align-items: center; gap: 32px; }
+    .footer-links a {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--color-light);
+    }
+    .footer-links__div {
+      height: 12px;
+      width: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ============================================================
+       MOBILE — adapta para telas <= 768px (não afeta desktop)
+    ============================================================ */
+    @media (max-width: 768px) {
+      :root { --px: 16px; }
+
+      /* Header */
+      .site-header {
+        height: 60px;
+        border-bottom-color: rgba(225,223,225,0.2);
+      }
+      .site-header__logo { height: 16px; }
+      .site-header__logo img.site-header__logo--desktop { display: none; }
+      .site-header__logo img.site-header__logo--mobile { display: block; height: 16px; width: auto; }
+      .site-header__menu {
+        padding: 24px 0 24px 16px;
+        font-size: 14px;
+        border-left-color: rgba(225,223,225,0.2);
+      }
+      .site-header__menu img { width: 51px; height: 12px; }
+
+      /* Hero */
+      .hero-body {
+        padding: 100px var(--px) 40px;
+        gap: 80px;
+      }
+      .hero-info { gap: 40px; }
+      .hero-title-row {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+      }
+      .hero-title { font-size: 44px; max-width: 100%; }
+      .hero-meta { max-width: 100%; }
+      .hero-meta__desc { max-width: 100%; }
+      .hero-bar { font-size: 14px; }
+      .hero-bar img { width: 24px; height: 24px; }
+      .hero-media { height: 266px; }
+      .hero-media__pattern { width: 156px; height: 36px; }
+
+      /* Características — empilhado */
+      .carac-section {
+        flex-direction: column;
+        gap: 56px;
+        padding: 100px var(--px);
+      }
+      .carac-image { width: 100%; height: 437px; }
+      .carac-content { gap: 56px; }
+      .carac-title {
+        font-size: 32px;
+        max-width: 305px;
+        text-align: right;
+        align-self: flex-end;
+      }
+      .carac-list {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 32px;
+      }
+      .carac-item__num { font-size: 32px; }
+
+      /* Sobre — empilhado */
+      .sobre-section { gap: 80px; }
+      .sobre-header {
+        flex-direction: column-reverse;
+        gap: 32px;
+        padding: 100px var(--px) 0;
+        align-items: flex-start;
+      }
+      .sobre-header__title { font-size: 32px; max-width: 100%; }
+      .sobre-header__pattern { width: 137px; height: 32px; }
+      .sobre-cards {
+        flex-direction: column;
+        padding: 0 var(--px);
+      }
+      .sobre-card { padding: 24px; gap: 56px; }
+      .sobre-card + .sobre-card {
+        border-left: 1px solid rgba(225,223,225,0.2);
+        border-top: none;
+      }
+      .sobre-card__num { font-size: 32px; }
+      .sobre-card__subtitle { font-size: 20px; }
+      .sobre-card__text { font-size: 18px; }
+      .sobre-images {
+        flex-direction: column;
+        gap: 16px;
+        padding: 0 var(--px);
+      }
+      .sobre-img-col img { height: 356px; }
+      .sobre-img-col--right { padding-top: 0; }
+
+      /* Sobre Porsche — empilhado */
+      .porsche-section {
+        flex-direction: column;
+        gap: 56px;
+        padding: 16px;
+      }
+      .porsche-left { padding: 16px 16px 32px; gap: 32px; }
+      .porsche-left__title { font-size: 28px; }
+      .porsche-right { padding: 16px; min-height: 453px; }
+      .porsche-right__subtitle { font-size: 20px; max-width: 100%; }
+      .porsche-right__text { max-width: 100%; }
+
+      /* Galeria + Plantas */
+      .galeria-section,
+      .plantas-section {
+        gap: 80px;
+        padding: 100px var(--px);
+      }
+      .galeria-title-row,
+      .plantas-title-row {
+        flex-direction: column;
+        gap: 32px;
+        align-items: flex-start;
+      }
+      .galeria-title { font-size: 32px; max-width: 100%; }
+      .galeria-desc { font-size: 18px; max-width: 100%; }
+      .plantas-title { font-size: 32px; max-width: 320px; }
+      .plantas-meta { max-width: 100%; }
+      .galeria-track { gap: 20px; }
+      .galeria-track img {
+        width: 323px !important;
+        height: 181px;
+      }
+      #track-plantas img {
+        width: 323px !important;
+        height: 181px;
+      }
+
+      /* Diferenciais — empilhado */
+      .diferenciais-section {
+        gap: 80px;
+        padding: 100px var(--px);
+      }
+      .diferenciais-header {
+        flex-direction: column;
+        gap: 40px;
+        align-items: flex-start;
+      }
+      .diferenciais-title { font-size: 32px; max-width: 100%; }
+      .diferenciais-grid { flex-direction: column; }
+      .card-featured { width: 100%; height: 344px; }
+      .cards-grid { width: 100%; }
+      .card-item {
+        width: 100%;
+        height: 222px;
+        border-left: 1px solid rgba(34,34,40,0.1);
+      }
+      .card-item:nth-child(n+2) { border-top: none; }
+
+      /* Localização — empilhado */
+      .localizacao-section { flex-direction: column; }
+      .localizacao-left {
+        width: 100%;
+        padding: 100px var(--px) 0;
+        border-right: none;
+      }
+      .localizacao-title { font-size: 32px; max-width: 100%; }
+      .localizacao-right { padding: 50px var(--px) 100px; }
+      .localizacao-text { max-width: 100%; }
+
+      /* Map */
+      .map-section img { height: 229px; }
+
+      /* CTA — empilhado */
+      .cta-section { flex-direction: column; }
+      .cta-left {
+        width: 100%;
+        padding: 100px var(--px) 0;
+        border-right: none;
+      }
+      .cta-title { font-size: 32px; max-width: 100%; }
+      .cta-right {
+        flex-direction: column;
+        gap: 32px;
+        padding: 50px var(--px) 100px;
+        align-items: flex-start;
+      }
+      .cta-text { max-width: 100%; }
+
+      /* Footer */
+      .site-footer {
+        gap: 80px;
+        padding: 100px var(--px) 40px;
+      }
+      .footer-top {
+        flex-direction: column;
+        gap: 40px;
+        padding-bottom: 40px;
+        align-items: flex-start;
+      }
+      .footer-contact a { font-size: 18px; }
+      .footer-social {
+        flex-direction: column;
+        gap: 32px;
+        align-items: flex-start;
+      }
+      .footer-social__divider { display: none; }
+      .footer-bottom {
+        flex-direction: column-reverse;
+        gap: 32px;
+        align-items: flex-start;
+      }
+      .footer-links {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .footer-links__div { display: none; }
+
+      /* Menu modal — full width */
+      .menu-modal__panel { width: 100vw; }
+      .menu-modal__header { padding: 0 var(--px); height: 60px; }
+
+      /* Lightbox */
+      .lightbox__img { max-width: 95vw; max-height: 75vh; }
+
+      /* ---------- TEXT-WRAP BALANCE ----------
+         Evita linhas viúvas em headings/títulos curtos.
+         O navegador descarta a regra automaticamente quando
+         o texto for longo demais (>6 linhas), então não atrapalha. */
+      .hero-title,
+      .carac-title,
+      .sobre-header__title,
+      .porsche-left__title,
+      .galeria-title,
+      .diferenciais-title,
+      .plantas-title,
+      .localizacao-title,
+      .cta-title,
+      .sobre-card__subtitle,
+      .porsche-right__subtitle,
+      .card-featured__label,
+      .card-item__label,
+      .carac-item__text,
+      .hero-meta__desc,
+      .galeria-desc,
+      .plantas-meta__desc,
+      .menu-modal__link,
+      .footer-contact a {
+        text-wrap: balance;
+      }
+
+      /* Para parágrafos longos (>4 linhas), balance é ignorado
+         pelo browser — usa-se "pretty" que evita widow só na última linha */
+      .sobre-card__text,
+      .porsche-right__text,
+      .localizacao-text,
+      .localizacao-text p,
+      .cta-text {
+        text-wrap: pretty;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. HERO
+============================================================ -->
+<header class="site-header">
+  <div class="site-header__logo">
+    <img class="site-header__logo--desktop" src="https://www.figma.com/api/mcp/asset/d319a4c5-5c41-4626-915c-322ef21a76e4" alt="Lebensart — Vale do Sereno">
+    <img class="site-header__logo--mobile" src="assets/logo-mobile.svg" alt="Lebensart">
+  </div>
+  <button class="site-header__menu" id="menu-open" aria-label="Abrir menu" aria-controls="menu-modal" aria-expanded="false">
+    <span>Menu</span>
+    <img src="https://www.figma.com/api/mcp/asset/b6b574b6-7219-409c-9620-94599b515a0a" alt="">
+  </button>
+</header>
+
+<section class="hero-section">
+  <div class="hero-body">
+    <div class="hero-info">
+      <div class="hero-title-row">
+        <h1 class="hero-title">
+          Imponência e <em class="italic-dim-light">minimalismo</em> em cada detalhe.
+        </h1>
+        <div class="hero-meta">
+          <div class="hero-meta__tag">
+            <img src="https://www.figma.com/api/mcp/asset/25c42e26-c7f7-426d-8e8c-eb2751938cc1" alt="">
+            <span>Apartamentos de 1, 2 e 3 quartos</span>
+          </div>
+          <p class="hero-meta__desc">De 46 a 97 m² com varandas amplas e integradas no Vale do Sereno.</p>
+        </div>
+      </div>
+      <div class="hero-bar">
+        <span>Continue explorando</span>
+        <img src="https://www.figma.com/api/mcp/asset/6fb812cd-50ef-4e37-bed1-917961e75a1d" alt="">
+      </div>
+    </div>
+
+    <div class="hero-media">
+      <!-- YouTube background video -->
+      <div class="hero-media__iframe-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/FvAxpi86xJ8?autoplay=1&mute=1&loop=1&controls=0&playlist=FvAxpi86xJ8&rel=0&showinfo=0&modestbranding=1"
+          title="Lebensart"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <!-- Fallback image -->
+      <img class="hero-media__fallback" src="https://www.figma.com/api/mcp/asset/619d0366-247b-415b-8517-64b643678f42" alt="Lebensart — fachada do empreendimento">
+      <div class="hero-media__overlay"></div>
+      <img class="hero-media__pattern" src="https://www.figma.com/api/mcp/asset/58c3c7b8-5e0c-443a-9953-c70c415a0461" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. CARACTERÍSTICAS
+============================================================ -->
+<section class="carac-section" id="caracteristicas">
+  <div class="carac-image">
+    <img src="https://www.figma.com/api/mcp/asset/954294b8-722c-4a3c-8d8b-a5e1dfec7130" alt="Fachada do Lebensart">
+  </div>
+  <div class="carac-content">
+    <h2 class="carac-title">
+      Imponência e <em class="italic-dim">minimalismo</em> em cada detalhe.
+    </h2>
+    <ul class="carac-list" role="list">
+      <li class="carac-item">
+        <span class="carac-item__text">Projeto com assinatura Porsche Consulting</span>
+        <span class="carac-item__num">01</span>
+      </li>
+      <li class="carac-item">
+        <span class="carac-item__text">Garagem com padrão de concessionária de luxo</span>
+        <span class="carac-item__num">05</span>
+      </li>
+      <li class="carac-item">
+        <span class="carac-item__text">Rooftop com vista para as montanhas</span>
+        <span class="carac-item__num">02</span>
+      </li>
+      <li class="carac-item">
+        <span class="carac-item__text">Piscina panorâmica, academia completa e quadra de padel</span>
+        <span class="carac-item__num">06</span>
+      </li>
+      <li class="carac-item">
+        <span class="carac-item__text">Fachada viva com tintas automotivas especiais</span>
+        <span class="carac-item__num">03</span>
+      </li>
+      <li class="carac-item">
+        <span class="carac-item__text">Apartamentos com varandas integradas, inclusive nos quartos</span>
+        <span class="carac-item__num">07</span>
+      </li>
+      <li class="carac-item">
+        <span class="carac-item__text">Localização privilegiada no Vale do Sereno</span>
+        <span class="carac-item__num">04</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. SOBRE (texto + imagens)
+============================================================ -->
+<section class="sobre-section" id="sobre">
+  <div class="sobre-header">
+    <h2 class="sobre-header__title">
+      Sofisticação que vai além da <em class="italic-dim-light">estética</em>.
+    </h2>
+    <img class="sobre-header__pattern" src="https://www.figma.com/api/mcp/asset/b376f1f2-2297-4b7b-991c-f32717c80890" alt="">
+  </div>
+
+  <div class="sobre-cards">
+    <div class="sobre-card">
+      <div class="sobre-card__num">01</div>
+      <div>
+        <div class="sobre-card__subtitle">Viver bem é uma escolha. E ela começa aqui.</div>
+        <p class="sobre-card__text">No coração do Vale do Sereno, um projeto raro, onde a precisão do design alemão encontra a beleza natural das montanhas mineiras. Conheça o empreendimento que eleva a sua vida a um novo patamar.</p>
+      </div>
+    </div>
+    <div class="sobre-card">
+      <div class="sobre-card__num">02</div>
+      <div>
+        <div class="sobre-card__subtitle">Design alemão a serviço do seu bem estar.</div>
+        <p class="sobre-card__text">Empreendimentos icônicos nascem da junção de grandes marcas. De um lado, a KATZ, referência em construção de alto padrão. De outro, a Porsche Consulting, que embarca a máxima potência alemã em cada detalhe do Lebensart.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sobre-images">
+    <div class="sobre-img-col">
+      <img src="https://www.figma.com/api/mcp/asset/9270cd7a-639d-4c8f-95e3-69d6ae600c5d" alt="Fachada do Lebensart">
+    </div>
+    <div class="sobre-img-col sobre-img-col--right">
+      <img src="https://www.figma.com/api/mcp/asset/0c482fc1-9bbc-432a-afcc-9a96f4c575ec" alt="Área social do Lebensart">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. SOBRE — PORSCHE CONSULTING
+============================================================ -->
+<section class="porsche-section">
+  <div class="porsche-left">
+    <div class="porsche-left__img">
+      <img src="https://www.figma.com/api/mcp/asset/2a9ed8ab-75c7-4b64-b9c6-9f7b31576945" alt="Rooftop do Lebensart">
+    </div>
+    <h2 class="porsche-left__title">
+      Excelência que se sente em <em class="italic-dim-light">cada detalhe</em>.
+    </h2>
+  </div>
+  <div class="porsche-right">
+    <span class="corner-sq corner-sq--tl"></span>
+    <span class="corner-sq corner-sq--tr"></span>
+    <span class="corner-sq corner-sq--br"></span>
+    <span class="corner-sq corner-sq--bl"></span>
+    <img class="porsche-right__arrow" src="https://www.figma.com/api/mcp/asset/e5184fdb-d97b-4e38-9fce-018205d6daa0" alt="">
+    <div>
+      <div class="porsche-right__subtitle">A Porsche Consulting leva para o Lebensart décadas de inovação, performance e design.</div>
+      <p class="porsche-right__text">Sua filosofia está presente do conceito à execução — da rampa veicular ao rooftop, da garagem com estética única às plantas inteligentes. Uma parceria que traduz elegância funcional com padrão internacional de qualidade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. GALERIA
+============================================================ -->
+<section class="galeria-section" id="galeria-ambientes">
+  <div class="galeria-header">
+    <div class="galeria-title-row">
+      <h2 class="galeria-title">
+        Veja como é <em class="italic-dim">viver</em> no seu melhor.
+      </h2>
+      <p class="galeria-desc">Imagens que revelam um projeto onde cada traço foi pensado para sua vida ser inesquecível</p>
+    </div>
+    <div class="galeria-nav-row">
+      <span class="galeria-label">Galeria</span>
+      <div class="galeria-nav">
+        <button class="btn-prev-galeria" aria-label="Anterior">
+          <img src="https://www.figma.com/api/mcp/asset/1a8ff65b-5a62-4f81-8118-a26e37e20f08" alt="">
+        </button>
+        <button class="btn-next-galeria" aria-label="Próximo">
+          <img src="https://www.figma.com/api/mcp/asset/0e468f54-4985-4c0e-ba75-b979df81304f" alt="">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="galeria-track-wrap">
+      <div class="galeria-track" id="track-galeria">
+        <img src="https://www.figma.com/api/mcp/asset/ea143189-6ce4-48b8-91c4-a11035593c54" alt="Acesso" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/743e3f5f-65f4-44d5-a60c-4efc401bf999" alt="Gourmet Rooftop" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/928cbd8c-9dd3-493b-b325-6455e6c12fad" alt="Jogos Rooftop" style="width:738px">
+        <img src="https://www.figma.com/api/mcp/asset/38db32bc-88f5-4c2e-8173-80a98e46e424" alt="Piscina" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/653ee4b9-6c85-4141-a69e-8f709e64c28a" alt="Piscina 02" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/06bd241b-bcbf-45bc-95cd-5bc3b5e14100" alt="Gourmet Churrasqueira" style="width:1367px">
+        <img src="https://www.figma.com/api/mcp/asset/9dc47acc-4469-42fc-ba85-7794aad21396" alt="Lounge Rooftop" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/e7e75ef9-f224-4650-a3cc-2ea5c8f0ccba" alt="Fachada" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/31b27d44-ee0b-4273-9914-e108e6098221" alt="Hall" style="width:332px">
+        <img src="https://www.figma.com/api/mcp/asset/7f3019c4-68bb-4910-bf0e-b035774eadc6" alt="Salão de Festas" style="width:332px">
+        <img src="https://www.figma.com/api/mcp/asset/ad3182c5-f19a-46b0-b46b-ee77e34b84d6" alt="Salão de Festas 2" style="width:664px">
+        <img src="https://www.figma.com/api/mcp/asset/f80f4781-b7dc-4588-8c82-93eb8db86445" alt="Coworking" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/f9aa0cda-d930-47dc-b214-2ddf2f0d2a6b" alt="Lavanderia" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/9d30521f-d53a-444e-852a-70ce42545622" alt="Fachada 2" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/75740db5-f5ce-4d5f-b3e3-3e9150edaeeb" alt="Barbearia" style="width:369px">
+        <img src="https://www.figma.com/api/mcp/asset/66581101-532d-4eed-81b0-b8cd4524901f" alt="Academia" style="width:1144px">
+        <img src="https://www.figma.com/api/mcp/asset/022628b3-c619-4f24-90f4-8647ac6b51af" alt="Academia 02" style="width:369px">
+        <img src="https://www.figma.com/api/mcp/asset/e67eeba5-136e-45da-a27d-ed3f6b0ed021" alt="Sauna Rooftop" style="width:369px">
+        <img src="https://www.figma.com/api/mcp/asset/cb47ae6b-2da9-42c8-9f1f-97493d4b7427" alt="SPA Rooftop" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/9b2b3795-1a16-4be0-ae65-0a545b0af3a1" alt="Fachada 03" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/3b04508a-eb1c-4718-a1e8-40692f424e2f" alt="SPA Rooftop 2" style="width:738px">
+        <img src="https://www.figma.com/api/mcp/asset/de878f71-0958-4472-b5d7-1dbd7caf889f" alt="Varanda Rooftop" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/ed576d95-f6e3-4cb0-aec3-d64500153d48" alt="Garagem 01" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/6345402f-168e-44a0-9c8b-e0807d284166" alt="Garagem 02" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/d1471198-ad02-4bb4-a744-948500778242" alt="Suite" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/4efa5ac1-25e0-47bf-ab8b-b77b5a160ade" alt="Fachada 04" style="width:295px">
+        <img src="https://www.figma.com/api/mcp/asset/b11d334a-fb08-41a2-a04f-09ce1d2a63fe" alt="Sala Apto Tipo" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/63b863e1-d5c9-4384-bf5d-b489634058bc" alt="Cozinha Apto Tipo" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/9d6ef2d5-cb19-4985-be5b-ecc18e231254" alt="Varanda Apto Tipo" style="width:656px">
+        <img src="https://www.figma.com/api/mcp/asset/5942f68e-cf91-445b-9dba-902e4cf63fcf" alt="Gourmet Churrasqueira 02" style="width:590px">
+        <img src="https://www.figma.com/api/mcp/asset/82ea5bf8-1941-41f5-9b6f-58f2fd9c017b" alt="Hall Térreo 02" style="width:656px">
+      </div>
+    </div>
+    <div class="galeria-dots" id="dots-galeria">
+      <button class="galeria-dot active" data-index="0" aria-label="Página 1"></button>
+      <button class="galeria-dot" data-index="1" aria-label="Página 2"></button>
+      <button class="galeria-dot" data-index="2" aria-label="Página 3"></button>
+      <button class="galeria-dot" data-index="3" aria-label="Página 4"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. DIFERENCIAIS
+============================================================ -->
+<section class="diferenciais-section" id="diferenciais">
+  <div class="diferenciais-header">
+    <h2 class="diferenciais-title">
+      Seu <em class="italic-dim">novo padrão</em> de vida.
+    </h2>
+    <a class="diferenciais-btn" href="https://wa.me/5531984169929?text=Ol%C3%A1%2C%20vim%20do%20site" target="_blank" rel="noopener" aria-label="Conheça o Lebensart no WhatsApp">
+      <span class="diferenciais-btn__icon">
+        <img src="https://www.figma.com/api/mcp/asset/b99a7a55-c4c9-4073-ba37-4f17b107dff5" alt="">
+      </span>
+      <span class="diferenciais-btn__label">Conheça o Lebensart</span>
+    </a>
+  </div>
+
+  <div class="diferenciais-grid">
+    <div class="card-featured">
+      <div class="card-featured__icon">
+        <img src="https://www.figma.com/api/mcp/asset/f77bbb57-f86a-477d-8a20-0e085b12645c" alt="">
+      </div>
+      <img class="card-featured__pattern" src="https://www.figma.com/api/mcp/asset/f7b61c9a-11ea-470d-9801-5f7dfc3dacc1" alt="">
+      <span class="card-featured__label">Rooftop com lazer completo</span>
+    </div>
+    <div class="cards-grid">
+      <div class="card-item">
+        <div class="card-item__icon"><img src="https://www.figma.com/api/mcp/asset/5a45a0d9-b3d8-420f-8ef4-59bb1e15629a" alt=""></div>
+        <span class="card-item__label">Piscina com borda infinita</span>
+      </div>
+      <div class="card-item">
+        <div class="card-item__icon"><img src="https://www.figma.com/api/mcp/asset/a83d6f30-ad98-4bf3-a5bf-d771cabe8cf5" alt=""></div>
+        <span class="card-item__label">Elevador de carga para entregas seguras</span>
+      </div>
+      <div class="card-item">
+        <div class="card-item__icon"><img src="https://www.figma.com/api/mcp/asset/ef4ec445-b1a8-4fcb-a95a-65147bee6f0e" alt=""></div>
+        <span class="card-item__label">Varandas generosas com vista para o Vale</span>
+      </div>
+      <div class="card-item">
+        <div class="card-item__icon"><img src="https://www.figma.com/api/mcp/asset/7b95fc90-5b64-4dd5-8bb6-d99f74d29738" alt=""></div>
+        <span class="card-item__label">Salão de festas integrado ao pilotis</span>
+      </div>
+      <div class="card-item">
+        <div class="card-item__icon"><img src="https://www.figma.com/api/mcp/asset/9022ef85-dd7d-41a2-a343-20f41625b281" alt=""></div>
+        <span class="card-item__label">Vaga para car wash e oficina privativa</span>
+      </div>
+      <div class="card-item">
+        <div class="card-item__icon"><img src="https://www.figma.com/api/mcp/asset/b5e387b1-c5c0-45d9-8bfc-15084f24e6bf" alt=""></div>
+        <span class="card-item__label">Academia com vista panorâmica</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. GALERIA — PLANTAS
+============================================================ -->
+<section class="plantas-section" id="galeria-plantas">
+  <div class="plantas-header">
+    <div class="plantas-title-row">
+      <h2 class="plantas-title">
+        Versatilidade para <em class="italic-dim">todos os estilos</em> de vida.
+      </h2>
+      <div class="plantas-meta">
+        <div class="plantas-meta__tag">
+          <img src="https://www.figma.com/api/mcp/asset/2bc191f0-014e-41e3-921d-8a1f9113b601" alt="">
+          <span>Plantas de 1, 2 e 3 quartos, incluindo opções duplex e SPA.</span>
+        </div>
+        <p class="plantas-meta__desc">Ambientes bem distribuídos, com varandas amplas e integração entre espaços sociais e íntimos.</p>
+      </div>
+    </div>
+    <div class="galeria-nav-row">
+      <span class="galeria-label">Plantas</span>
+      <div class="galeria-nav">
+        <button class="btn-prev-plantas" aria-label="Anterior">
+          <img src="https://www.figma.com/api/mcp/asset/c884982d-7dc6-4226-906e-7f37141c4a33" alt="">
+        </button>
+        <button class="btn-next-plantas" aria-label="Próximo">
+          <img src="https://www.figma.com/api/mcp/asset/e32b9ffa-c73f-4e5d-a0ff-ace42e249796" alt="">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="galeria-track-wrap">
+      <div class="galeria-track" id="track-plantas">
+        <img src="https://www.figma.com/api/mcp/asset/cf167509-02fb-487b-88d2-ada478e3cc8e" alt="Planta Tipo 02" style="width:590px">
+        <img src="https://www.figma.com/api/mcp/asset/310bf12f-017a-4ae3-9d3d-e3d4dca7adae" alt="Planta Cobertura" style="width:590px">
+        <img src="https://www.figma.com/api/mcp/asset/71e32351-b60d-4016-a436-27308a7564db" alt="Planta Tipo 01" style="width:590px">
+        <img src="https://www.figma.com/api/mcp/asset/da7c88c2-9b1d-49d5-9e40-58fc9ec140bd" alt="Planta Térreo" style="width:590px">
+        <img src="https://www.figma.com/api/mcp/asset/7a7c12ad-2dac-470d-9660-d11c333cbfc7" alt="Planta Rooftop" style="width:590px">
+      </div>
+    </div>
+    <div class="galeria-dots" id="dots-plantas">
+      <button class="galeria-dot active" data-index="0" aria-label="Página 1"></button>
+      <button class="galeria-dot" data-index="1" aria-label="Página 2"></button>
+      <button class="galeria-dot" data-index="2" aria-label="Página 3"></button>
+      <button class="galeria-dot" data-index="3" aria-label="Página 4"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. LOCALIZAÇÃO
+============================================================ -->
+<section class="localizacao-section" id="localizacao">
+  <div class="localizacao-left">
+    <h2 class="localizacao-title">
+      Onde o <em class="italic-dim">melhor da vida</em> acontece.
+    </h2>
+  </div>
+  <div class="localizacao-right">
+    <div class="localizacao-text">
+      <p>Não é por acaso que grandes marcas, centros médicos e empreendimentos de alto padrão escolhem essa região como endereço estratégico, impulsionando a valorização imobiliária e a transformação do estilo de vida de seus moradores.</p>
+      <p>No Vale do Sereno, uma das regiões com maior PIB per capita do país, você vive cercado de verde, com fácil acesso a Belo Horizonte e aos principais serviços, com segurança, infraestrutura e valorização crescente.</p>
+      <p>Por isso, seja para aumentar sua qualidade de vida ou para diversificar a carteira de investimentos, o Lebensart é uma escolha mais que promissora.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9. MAPA
+============================================================ -->
+<div class="map-section">
+  <img src="https://www.figma.com/api/mcp/asset/5c793703-a24c-45cd-b0e2-412e36e26bbb" alt="Mapa — Residencial Sereno, Vale do Sereno, Nova Lima">
+</div>
+
+<!-- ============================================================
+     10. CALL TO ACTION
+============================================================ -->
+<section class="cta-section">
+  <div class="cta-left">
+    <h2 class="cta-title">
+      Transformar projetos em <em class="italic-dim">ícones.</em>
+    </h2>
+  </div>
+  <div class="cta-right">
+    <p class="cta-text">Há mais de 50 anos no mercado, a Katz é referência em empreendimentos de alto padrão. Com mais de 500 mil m² construídos, a empresa mineira une inovação, qualidade e compromisso para criar obras que se tornam referência.</p>
+    <a class="cta-btn" href="https://wa.me/5531984169929?text=Ol%C3%A1%2C%20vim%20do%20site" target="_blank" rel="noopener" aria-label="Conheça o Lebensart no WhatsApp">
+      <span class="cta-btn__icon">
+        <img src="https://www.figma.com/api/mcp/asset/4170642f-86ba-40fe-ac1c-ad69f18ac6f9" alt="">
+      </span>
+      <span class="cta-btn__label">Conheça o Lebensart</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     11. FOOTER
+============================================================ -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-contact">
+      <a href="https://wa.me/5531984169929?text=Ol%C3%A1%2C%20vim%20do%20site" target="_blank" rel="noopener" aria-label="Falar no WhatsApp: 31 98416-9929">31 98416-9929</a>
+      <a href="mailto:comercial3@katz.eng.br">comercial3@katz.eng.br</a>
+    </div>
+    <div class="footer-social">
+      <a href="#" class="footer-social__item">Instagram</a>
+      <div class="footer-social__divider"></div>
+      <a href="#" class="footer-social__item">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- Large LEBENSART wordmark -->
+  <div class="footer-logo-wrap">
+    <!-- Assembled from individual vector pieces via absolute positioning -->
+    <div style="position:relative; width:100%; height:100%;">
+      <div class="footer-letter" style="top:1.39%; bottom:1.39%; right:58.23%; left:32.97%; background-image:url(assets/footer-logo/letter-1.svg);"></div>
+      <div class="footer-letter" style="top:1.39%; bottom:1.39%; right:92.19%; left:0; background-image:url(assets/footer-logo/letter-2.svg);"></div>
+      <div class="footer-letter" style="top:1.39%; bottom:1.39%; right:69.25%; left:12.82%; background-image:url(assets/footer-logo/letter-3.svg);"></div>
+      <div class="footer-letter" style="top:0; bottom:0; right:45.36%; left:43.99%; background-image:url(assets/footer-logo/letter-4.svg);"></div>
+      <div class="footer-letter" style="top:0.01%; bottom:0.13%; right:33.95%; left:56.85%; background-image:url(assets/footer-logo/letter-5.svg);"></div>
+      <div class="footer-letter" style="top:0; bottom:1.39%; right:21.66%; left:67.47%; background-image:url(assets/footer-logo/letter-6.svg);"></div>
+      <div class="footer-letter" style="top:1.39%; bottom:1.39%; right:10.34%; left:80.17%; background-image:url(assets/footer-logo/letter-7.svg);"></div>
+      <div class="footer-letter" style="top:1.39%; bottom:1.39%; right:0; left:90.77%; background-image:url(assets/footer-logo/letter-8.svg);"></div>
+      <div class="footer-letter" style="top:1.39%; bottom:1.39%; right:81.68%; left:9.52%; background-image:url(assets/footer-logo/letter-9.svg);"></div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Katz. Todos os direitos reservados.</span>
+    <div class="footer-links">
+      <a href="#">Políticas de Cookies</a>
+      <div class="footer-links__div"></div>
+      <a href="#">Políticas de Privacidade</a>
+      <div class="footer-links__div"></div>
+      <a href="#">Termos e condições</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     MENU MODAL (5437:86)
+============================================================ -->
+<div class="menu-modal" id="menu-modal" role="dialog" aria-modal="true" aria-labelledby="menu-modal-title" hidden>
+  <div class="menu-modal__panel">
+    <div class="menu-modal__header">
+      <span class="menu-modal__title" id="menu-modal-title">Menu</span>
+      <button type="button" class="menu-modal__close" id="menu-close" aria-label="Fechar menu">
+        <span>Fechar</span>
+        <img src="https://www.figma.com/api/mcp/asset/c988fae8-16ab-47c2-a406-dd5e6229af10" alt="">
+      </button>
+    </div>
+    <nav class="menu-modal__list" aria-label="Navegação principal">
+      <a class="menu-modal__link" href="#caracteristicas" data-menu-link>Características</a>
+      <a class="menu-modal__link" href="#sobre" data-menu-link>Sobre</a>
+      <a class="menu-modal__link" href="#galeria-ambientes" data-menu-link>Galeria</a>
+      <a class="menu-modal__link" href="#diferenciais" data-menu-link>Diferenciais</a>
+      <a class="menu-modal__link" href="#galeria-plantas" data-menu-link>Plantas</a>
+      <a class="menu-modal__link" href="#localizacao" data-menu-link>Localização</a>
+      <img class="menu-modal__pattern" src="https://www.figma.com/api/mcp/asset/fa660db0-7759-4f6d-8968-cdc68276b870" alt="">
+    </nav>
+  </div>
+</div>
+
+<!-- ============================================================
+     LIGHTBOX
+============================================================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizador de imagem" hidden>
+  <button type="button" class="lightbox__close" id="lb-close" aria-label="Fechar (Esc)">Fechar ✕</button>
+  <button type="button" class="lightbox__btn lightbox__prev" id="lb-prev" aria-label="Imagem anterior">‹</button>
+  <div class="lightbox__stage" id="lb-stage">
+    <img class="lightbox__img" id="lb-img" alt="" draggable="false">
+  </div>
+  <button type="button" class="lightbox__btn lightbox__next" id="lb-next" aria-label="Próxima imagem">›</button>
+  <div class="lightbox__counter" id="lb-counter">1 / 1</div>
+  <div class="lightbox__zoom" aria-label="Controles de zoom">
+    <button type="button" id="lb-zoom-out" aria-label="Diminuir zoom">−</button>
+    <button type="button" id="lb-zoom-reset" aria-label="Resetar zoom">⤢</button>
+    <button type="button" id="lb-zoom-in" aria-label="Aumentar zoom">+</button>
+  </div>
+</div>
+
+<script>
+  /* ===== Menu modal ===== */
+  (function(){
+    const modal = document.getElementById('menu-modal');
+    const openBtn = document.getElementById('menu-open');
+    const closeBtn = document.getElementById('menu-close');
+    if (!modal || !openBtn || !closeBtn) return;
+
+    let lastFocus = null;
+
+    function isOpen() { return !modal.hidden; }
+
+    function open() {
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add('menu-open');
+      openBtn.setAttribute('aria-expanded', 'true');
+      closeBtn.focus();
+    }
+
+    function close() {
+      modal.hidden = true;
+      document.body.classList.remove('menu-open');
+      openBtn.setAttribute('aria-expanded', 'false');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+
+    // Close on overlay click (but not on panel click)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+
+    // Close on Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) close();
+    });
+
+    // Close after navigating to anchor
+    modal.querySelectorAll('[data-menu-link]').forEach((a) => {
+      a.addEventListener('click', () => close());
+    });
+  })();
+
+  /* ===== Gallery carousel helper ===== */
+  function initCarousel(trackId, prevBtn, nextBtn, dotsId) {
+    const track = document.getElementById(trackId);
+    const prev = document.querySelector(prevBtn);
+    const next = document.querySelector(nextBtn);
+    const dots = document.querySelectorAll(`#${dotsId} .galeria-dot`);
+    const totalDots = dots.length;
+    let current = 0;
+
+    function getPageWidth() {
+      return track.parentElement.offsetWidth;
+    }
+
+    function updateArrows() {
+      if (prev) prev.disabled = (current <= 0);
+      if (next) next.disabled = (current >= totalDots - 1);
+    }
+
+    function goTo(index) {
+      const pageW = getPageWidth();
+      current = Math.max(0, Math.min(index, totalDots - 1));
+      track.style.transform = `translateX(-${current * pageW}px)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      updateArrows();
+    }
+
+    if (prev) prev.addEventListener('click', () => goTo(current - 1));
+    if (next) next.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((d) => d.addEventListener('click', () => goTo(+d.dataset.index)));
+    window.addEventListener('resize', () => goTo(current));
+    updateArrows();
+  }
+
+  initCarousel('track-galeria', '.btn-prev-galeria', '.btn-next-galeria', 'dots-galeria');
+  initCarousel('track-plantas', '.btn-prev-plantas', '.btn-next-plantas', 'dots-plantas');
+
+  /* ===== Lightbox (image viewer with zoom + navigation) ===== */
+  (function(){
+    const lb       = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lb-img');
+    const lbStage  = document.getElementById('lb-stage');
+    const lbPrev   = document.getElementById('lb-prev');
+    const lbNext   = document.getElementById('lb-next');
+    const lbClose  = document.getElementById('lb-close');
+    const lbCount  = document.getElementById('lb-counter');
+    const lbZIn    = document.getElementById('lb-zoom-in');
+    const lbZOut   = document.getElementById('lb-zoom-out');
+    const lbZReset = document.getElementById('lb-zoom-reset');
+
+    let images = [];
+    let index = 0;
+    let scale = 1;
+    let tx = 0, ty = 0;
+    let dragging = false, dragStart = null;
+    const MIN = 1, MAX = 4, STEP = 0.5;
+
+    /* Build set: each carousel becomes its own gallery */
+    function bindGallery(trackId) {
+      const track = document.getElementById(trackId);
+      if (!track) return;
+      const imgs = [...track.querySelectorAll('img')];
+      imgs.forEach((img, i) => {
+        img.addEventListener('click', () => open(imgs.map(x => ({src: x.src, alt: x.alt || ''})), i));
+      });
+    }
+    bindGallery('track-galeria');
+    bindGallery('track-plantas');
+
+    function open(set, i) {
+      images = set;
+      index = i;
+      render();
+      lb.hidden = false;
+      document.body.classList.add('menu-open'); // reuse scroll lock
+    }
+
+    function close() {
+      lb.hidden = true;
+      document.body.classList.remove('menu-open');
+      resetZoom();
+    }
+
+    function render() {
+      lbImg.src = images[index].src;
+      lbImg.alt = images[index].alt;
+      lbCount.textContent = `${index + 1} / ${images.length}`;
+      lbPrev.disabled = (index <= 0);
+      lbNext.disabled = (index >= images.length - 1);
+      resetZoom();
+    }
+
+    function navigate(delta) {
+      const n = index + delta;
+      if (n < 0 || n >= images.length) return;
+      index = n;
+      render();
+    }
+
+    function applyTransform() {
+      lbImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+      lb.classList.toggle('is-zoomed', scale > 1);
+    }
+    function resetZoom() {
+      scale = 1; tx = 0; ty = 0;
+      applyTransform();
+    }
+    function zoom(delta, originX, originY) {
+      const next = Math.min(MAX, Math.max(MIN, +(scale + delta).toFixed(2)));
+      if (next === scale) return;
+      /* Zoom toward cursor: keep point under cursor stable */
+      if (originX != null && originY != null) {
+        const rect = lbImg.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = originX - cx;
+        const dy = originY - cy;
+        tx -= dx * (next / scale - 1);
+        ty -= dy * (next / scale - 1);
+      }
+      scale = next;
+      if (scale === 1) { tx = 0; ty = 0; }
+      applyTransform();
+    }
+
+    /* Click image: toggle 1x ↔ 2x at click position */
+    lbImg.addEventListener('click', (e) => {
+      if (dragStart && (Math.abs(e.clientX - dragStart.cx) > 4 || Math.abs(e.clientY - dragStart.cy) > 4)) return;
+      if (scale === 1) zoom(1, e.clientX, e.clientY);
+      else resetZoom();
+    });
+
+    /* Wheel zoom */
+    lbStage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      zoom(e.deltaY < 0 ? STEP : -STEP, e.clientX, e.clientY);
+    }, { passive: false });
+
+    /* Drag to pan when zoomed */
+    lbImg.addEventListener('pointerdown', (e) => {
+      if (scale <= 1) return;
+      dragging = true;
+      dragStart = { cx: e.clientX, cy: e.clientY, tx, ty };
+      lb.classList.add('is-dragging');
+      lbImg.setPointerCapture(e.pointerId);
+    });
+    lbImg.addEventListener('pointermove', (e) => {
+      if (!dragging || !dragStart) return;
+      tx = dragStart.tx + (e.clientX - dragStart.cx);
+      ty = dragStart.ty + (e.clientY - dragStart.cy);
+      applyTransform();
+    });
+    lbImg.addEventListener('pointerup', (e) => {
+      dragging = false;
+      lb.classList.remove('is-dragging');
+      try { lbImg.releasePointerCapture(e.pointerId); } catch (_) {}
+      setTimeout(() => { dragStart = null; }, 0);
+    });
+
+    /* Buttons */
+    lbPrev.addEventListener('click', () => navigate(-1));
+    lbNext.addEventListener('click', () => navigate(1));
+    lbClose.addEventListener('click', close);
+    lbZIn.addEventListener('click', () => zoom(STEP));
+    lbZOut.addEventListener('click', () => zoom(-STEP));
+    lbZReset.addEventListener('click', resetZoom);
+
+    /* Click outside image (overlay/stage but not on image/buttons) closes */
+    lbStage.addEventListener('click', (e) => {
+      if (e.target === lbStage) close();
+    });
+
+    /* Keyboard */
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') navigate(-1);
+      else if (e.key === 'ArrowRight') navigate(1);
+      else if (e.key === '+' || e.key === '=') zoom(STEP);
+      else if (e.key === '-') zoom(-STEP);
+      else if (e.key === '0') resetZoom();
+    });
+  })();
+</script>
+</body>
+</html>
