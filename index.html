@@ -8,6 +8,77 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400&display=swap" rel="stylesheet">
   <style>
+    /* ============================================================
+       ANIMATIONS — sofisticadas, sutis, lentas (ease-out 0.9s)
+    ============================================================ */
+    /* Reveal on scroll — só ativa quando body.has-reveal (JS confirma suporte) */
+    body.has-reveal .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition-delay: calc(var(--reveal-i, 0) * 80ms);
+      will-change: opacity, transform;
+    }
+    body.has-reveal .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero — Ken Burns sutil (loop 30s, 1.0 → 1.06) */
+    .hero-media__fallback {
+      animation: ken-burns 30s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes ken-burns {
+      from { transform: scale(1); }
+      to   { transform: scale(1.06); }
+    }
+
+    /* Galeria — leve scale-up no hover (0.6s slow ease-out) */
+    .galeria-track img {
+      transition:
+        opacity 0.3s ease,
+        transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .galeria-track img:hover { transform: scale(1.025); }
+
+    /* Sobre — imagens grandes com leve scale persistente animando */
+    .sobre-img-col img,
+    .carac-image img,
+    .porsche-left__img img {
+      transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .sobre-img-col:hover img,
+    .carac-image:hover img,
+    .porsche-left__img:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Card items — fade-up no hover (Diferenciais cards ganham um leve realce) */
+    .card-item, .card-featured {
+      transition: background 0.4s ease, transform 0.4s ease;
+    }
+    .card-item:hover { background: rgba(34,34,40,0.02); }
+
+    /* CTA / Diferenciais buttons — micro-shift mais suave */
+    .diferenciais-btn,
+    .cta-btn { transition: opacity 0.3s ease; }
+
+    /* Respeita preferência de redução de movimento */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .hero-media__fallback { animation: none; }
+    }
+
     /* ===== DESIGN TOKENS ===== */
     :root {
       --color-light: #E1DFE1;
@@ -1877,6 +1948,85 @@
 </div>
 
 <script>
+  /* ===== Reveal-on-scroll (subtle fade + translateY) ===== */
+  (function(){
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+    if (!('IntersectionObserver' in window)) return;
+    document.body.classList.add('has-reveal');
+
+    /* Selectors that should reveal on scroll */
+    const REVEAL_SELECTORS = [
+      '.hero-info', '.hero-bar', '.hero-media',
+      '.carac-image', '.carac-title', '.carac-item',
+      '.sobre-header__title', '.sobre-header__pattern',
+      '.sobre-card', '.sobre-img-col',
+      '.porsche-left', '.porsche-right',
+      '.galeria-title', '.galeria-desc', '.galeria-nav-row', '.galeria-track-wrap', '.galeria-dots',
+      '.diferenciais-title', '.diferenciais-btn', '.card-featured', '.card-item',
+      '.plantas-title', '.plantas-meta', '.plantas-header > .galeria-nav-row',
+      '.localizacao-title', '.localizacao-text',
+      '.map-section img',
+      '.cta-title', '.cta-text', '.cta-btn',
+      '.footer-contact', '.footer-social', '.footer-logo-wrap', '.footer-bottom'
+    ];
+
+    /* Tag elements + assign stagger index for siblings */
+    REVEAL_SELECTORS.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((el) => el.classList.add('reveal'));
+    });
+
+    /* Stagger: assign --reveal-i based on position among same-class siblings in same parent */
+    function applyStaggerIndex(parentSel, childSel, max = 8) {
+      document.querySelectorAll(parentSel).forEach((parent) => {
+        parent.querySelectorAll(childSel).forEach((child, i) => {
+          child.style.setProperty('--reveal-i', Math.min(i, max));
+        });
+      });
+    }
+    applyStaggerIndex('.carac-list', '.carac-item');
+    applyStaggerIndex('.sobre-cards', '.sobre-card');
+    applyStaggerIndex('.cards-grid', '.card-item');
+
+    const elements = [...document.querySelectorAll('.reveal')];
+
+    /* Manual viewport check — funciona em qualquer renderer */
+    function checkViewport() {
+      const trigger = window.innerHeight - 60;
+      for (let i = elements.length - 1; i >= 0; i--) {
+        const el = elements[i];
+        const rect = el.getBoundingClientRect();
+        if (rect.top < trigger && rect.bottom > 0) {
+          el.classList.add('is-visible');
+          elements.splice(i, 1);
+        }
+      }
+    }
+
+    /* IntersectionObserver (mais eficiente) + fallback manual */
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+            const idx = elements.indexOf(entry.target);
+            if (idx > -1) elements.splice(idx, 1);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      elements.forEach((el) => observer.observe(el));
+    }
+
+    /* Fallback: roda no load + scroll (cobre renderers que ignoram observer) */
+    checkViewport();
+    window.addEventListener('scroll', checkViewport, { passive: true });
+    window.addEventListener('resize', checkViewport, { passive: true });
+    /* Re-check após render para pegar qualquer above-the-fold remanescente */
+    requestAnimationFrame(checkViewport);
+    setTimeout(checkViewport, 100);
+  })();
+
   /* ===== Menu modal ===== */
   (function(){
     const modal = document.getElementById('menu-modal');
