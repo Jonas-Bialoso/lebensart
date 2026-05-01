@@ -387,11 +387,12 @@ em.italic-dim       { font-style: italic; color: rgba(34,34,40,0.55); }
   border-bottom: 1px solid rgba(225,223,225,0.3);
 }
 .legal__contact a:hover { border-bottom-color: var(--color-light); }
-/* Override do strong dentro do bloco preto pra ficar legível */
+/* Override do strong dentro do bloco preto pra ficar legível
+   !important pra bypassar qualquer override por cascata */
 .legal__contact p strong,
 .legal__contact strong {
-  color: rgba(225,223,225,0.65);
-  font-weight: 400;
+  color: rgba(225,223,225,0.85) !important;
+  font-weight: 400 !important;
 }
 
 /* ---------- Conclusão ---------- */
