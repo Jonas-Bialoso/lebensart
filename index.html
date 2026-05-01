@@ -2009,6 +2009,33 @@
 <!-- Lenis (smooth scroll) -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.21/dist/lenis.min.js"></script>
 <script>
+  /* ===== Dynamic config loader (assets/config.json) ===== */
+  /* Aplica WhatsApp + Instagram + LinkedIn URLs no boot.
+     Permite editar via /admin.html sem recompilar o site. */
+  (function(){
+    fetch('assets/config.json?t=' + Date.now())
+      .then((r) => r.ok ? r.json() : null)
+      .then((cfg) => {
+        if (!cfg) return;
+        if (cfg.whatsapp_number && cfg.whatsapp_message) {
+          const wa = `https://wa.me/${cfg.whatsapp_number}?text=${encodeURIComponent(cfg.whatsapp_message)}`;
+          document.querySelectorAll('a[href*="wa.me"]').forEach((a) => { a.href = wa; });
+        }
+        const social = document.querySelectorAll('.footer-social__item');
+        if (social[0] && cfg.instagram_url) {
+          social[0].href = cfg.instagram_url;
+          social[0].target = '_blank';
+          social[0].rel = 'noopener';
+        }
+        if (social[1] && cfg.linkedin_url) {
+          social[1].href = cfg.linkedin_url;
+          social[1].target = '_blank';
+          social[1].rel = 'noopener';
+        }
+      })
+      .catch(() => {});
+  })();
+
   /* ===== Hero video — HTML5 nativo, fade-out fallback + play/pause toggle ===== */
   (function(){
     const heroMedia = document.querySelector('.hero-media');
