@@ -1,0 +1,5 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="lucide/waves-ladder">
+<path id="Vector" d="M19 4.78809C18.4696 4.78809 17.9609 4.9988 17.5858 5.37387C17.2107 5.74895 17 6.25765 17 6.78809V17.7881M2 17.7881C2.6 18.2881 3.2 18.7881 4.5 18.7881C7 18.7881 7 16.7881 9.5 16.7881C12.1 16.7881 11.9 18.7881 14.5 18.7881C17 18.7881 17 16.7881 19.5 16.7881C20.8 16.7881 21.4 17.2881 22 17.7881M7 12.7881H17M7 8.78809H17M9 4.78809C8.46957 4.78809 7.96086 4.9988 7.58579 5.37387C7.21071 5.74895 7 6.25765 7 6.78809V17.7881" stroke="var(--stroke-0, #222228)" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
