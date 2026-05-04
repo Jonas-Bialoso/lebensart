@@ -77,12 +77,12 @@
       transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
       pointer-events: none;
     }
-    /* Gradient overlay pra texto ficar legível em qualquer foto */
+    /* Gradient overlay top->bottom (rgba 0 -> 0.8) — exato do Figma */
     .card-item::after, .card-featured::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
       opacity: 0;
       transition: opacity 0.5s ease;
       z-index: 1;
@@ -1839,7 +1839,7 @@
 
   <div class="diferenciais-grid">
     <div class="card-featured">
-      <img class="card-featured__bg" src="assets/img/de878f71-0958-4472-b5d7-1dbd7caf889f.webp" alt="" loading="lazy">
+      <img class="card-featured__bg" src="assets/img/card-rooftop.webp" alt="" loading="lazy">
       <div class="card-featured__icon">
         <img src="assets/img/f77bbb57-f86a-477d-8a20-0e085b12645c.svg" alt="">
       </div>
@@ -1848,32 +1848,32 @@
     </div>
     <div class="cards-grid">
       <div class="card-item">
-        <img class="card-item__bg" src="assets/img/38db32bc-88f5-4c2e-8173-80a98e46e424.webp" alt="" loading="lazy">
+        <img class="card-item__bg" src="assets/img/card-piscina.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/5a45a0d9-b3d8-420f-8ef4-59bb1e15629a.svg" alt=""></div>
         <span class="card-item__label">Piscina com borda infinita</span>
       </div>
       <div class="card-item">
-        <img class="card-item__bg" src="assets/img/6345402f-168e-44a0-9c8b-e0807d284166.webp" alt="" loading="lazy">
+        <img class="card-item__bg" src="assets/img/card-elevador.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/a83d6f30-ad98-4bf3-a5bf-d771cabe8cf5.svg" alt=""></div>
         <span class="card-item__label">Elevador de carga para entregas seguras</span>
       </div>
       <div class="card-item">
-        <img class="card-item__bg" src="assets/img/9d6ef2d5-cb19-4985-be5b-ecc18e231254.webp" alt="" loading="lazy">
+        <img class="card-item__bg" src="assets/img/card-varanda.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/ef4ec445-b1a8-4fcb-a95a-65147bee6f0e.svg" alt=""></div>
         <span class="card-item__label">Varandas generosas com vista para o Vale</span>
       </div>
       <div class="card-item">
-        <img class="card-item__bg" src="assets/img/7f3019c4-68bb-4910-bf0e-b035774eadc6.webp" alt="" loading="lazy">
+        <img class="card-item__bg" src="assets/img/card-salao.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/7b95fc90-5b64-4dd5-8bb6-d99f74d29738.svg" alt=""></div>
         <span class="card-item__label">Salão de festas integrado ao pilotis</span>
       </div>
       <div class="card-item">
-        <img class="card-item__bg" src="assets/img/ed576d95-f6e3-4cb0-aec3-d64500153d48.webp" alt="" loading="lazy">
+        <img class="card-item__bg" src="assets/img/card-carwash.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/9022ef85-dd7d-41a2-a343-20f41625b281.svg" alt=""></div>
         <span class="card-item__label">Vaga para car wash e oficina privativa</span>
       </div>
       <div class="card-item">
-        <img class="card-item__bg" src="assets/img/022628b3-c619-4f24-90f4-8647ac6b51af.webp" alt="" loading="lazy">
+        <img class="card-item__bg" src="assets/img/card-academia.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/b5e387b1-c5c0-45d9-8bfc-15084f24e6bf.svg" alt=""></div>
         <span class="card-item__label">Academia com vista panorâmica</span>
       </div>
