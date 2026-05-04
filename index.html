@@ -88,15 +88,19 @@
       z-index: 1;
       pointer-events: none;
     }
-    /* Conteúdo (icon + label + pattern) acima da imagem e do overlay
+    /* Conteúdo (icon + label) acima da imagem e do overlay
        Especificidade boostada (.card-X .card-X__) pra vencer regras antigas */
     .card-item .card-item__icon, .card-item .card-item__label,
     .card-featured .card-featured__icon,
-    .card-featured .card-featured__label,
-    .card-featured .card-featured__pattern {
+    .card-featured .card-featured__label {
       position: relative;
       z-index: 2;
       transition: filter 0.4s ease, color 0.4s ease, opacity 0.4s ease;
+    }
+    /* Pattern: mantém position absolute do CSS original, só adiciona z-index */
+    .card-featured .card-featured__pattern {
+      z-index: 2;
+      transition: opacity 0.4s ease;
     }
     /* Labels com max-width pra forçar wrap em 2 linhas (matching Figma) */
     .card-item__label { max-width: 200px; }
