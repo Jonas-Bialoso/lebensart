@@ -88,13 +88,18 @@
       z-index: 1;
       pointer-events: none;
     }
-    /* Conteúdo (icon + label + pattern) acima da imagem e do overlay */
-    .card-item__icon, .card-item__label,
-    .card-featured__icon, .card-featured__label, .card-featured__pattern {
+    /* Conteúdo (icon + label + pattern) acima da imagem e do overlay
+       Especificidade boostada (.card-X .card-X__) pra vencer regras antigas */
+    .card-item .card-item__icon, .card-item .card-item__label,
+    .card-featured .card-featured__icon,
+    .card-featured .card-featured__label,
+    .card-featured .card-featured__pattern {
       position: relative;
       z-index: 2;
       transition: filter 0.4s ease, color 0.4s ease, opacity 0.4s ease;
     }
+    /* Labels com max-width pra forçar wrap em 2 linhas (matching Figma) */
+    .card-item__label { max-width: 200px; }
     /* Hover: imagem aparece, overlay aparece, ícone vira branco, label vira light */
     .card-item:hover .card-item__bg,
     .card-featured:hover .card-featured__bg {
