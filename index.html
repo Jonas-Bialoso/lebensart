@@ -58,11 +58,64 @@
       transform: scale(1.03);
     }
 
-    /* Card items — fade-up no hover (Diferenciais cards ganham um leve realce) */
+    /* Card items — hover faz aparecer a imagem do amenity por trás
+       (Diferenciais cards: ícone + label ficam light sobre a foto) */
     .card-item, .card-featured {
-      transition: background 0.4s ease, transform 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate; /* contém o stacking pra ::after não vazar */
     }
-    .card-item:hover { background: rgba(34,34,40,0.02); }
+    .card-item__bg, .card-featured__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+      pointer-events: none;
+    }
+    /* Gradient overlay pra texto ficar legível em qualquer foto */
+    .card-item::after, .card-featured::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+    /* Conteúdo (icon + label + pattern) acima da imagem e do overlay
+       Especificidade boostada (.card-X .card-X__) pra vencer regras antigas */
+    .card-item .card-item__icon, .card-item .card-item__label,
+    .card-featured .card-featured__icon,
+    .card-featured .card-featured__label,
+    .card-featured .card-featured__pattern {
+      position: relative;
+      z-index: 2;
+      transition: filter 0.4s ease, color 0.4s ease, opacity 0.4s ease;
+    }
+    /* Labels com max-width pra forçar wrap em 2 linhas (matching Figma) */
+    .card-item__label { max-width: 200px; }
+    /* Hover: imagem aparece, overlay aparece, ícone vira branco, label vira light */
+    .card-item:hover .card-item__bg,
+    .card-featured:hover .card-featured__bg {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .card-item:hover::after,
+    .card-featured:hover::after { opacity: 1; }
+    .card-item:hover .card-item__icon img {
+      filter: brightness(0) invert(1);
+    }
+    .card-item:hover .card-item__label {
+      color: var(--color-light);
+    }
+    /* Featured já é preto: pattern some no hover pra não competir com a foto */
+    .card-featured:hover .card-featured__pattern { opacity: 0; }
 
     /* CTA / Diferenciais buttons — micro-shift mais suave */
     .diferenciais-btn,
@@ -1786,6 +1839,7 @@
 
   <div class="diferenciais-grid">
     <div class="card-featured">
+      <img class="card-featured__bg" src="assets/img/de878f71-0958-4472-b5d7-1dbd7caf889f.webp" alt="" loading="lazy">
       <div class="card-featured__icon">
         <img src="assets/img/f77bbb57-f86a-477d-8a20-0e085b12645c.svg" alt="">
       </div>
@@ -1794,26 +1848,32 @@
     </div>
     <div class="cards-grid">
       <div class="card-item">
+        <img class="card-item__bg" src="assets/img/38db32bc-88f5-4c2e-8173-80a98e46e424.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/5a45a0d9-b3d8-420f-8ef4-59bb1e15629a.svg" alt=""></div>
         <span class="card-item__label">Piscina com borda infinita</span>
       </div>
       <div class="card-item">
+        <img class="card-item__bg" src="assets/img/6345402f-168e-44a0-9c8b-e0807d284166.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/a83d6f30-ad98-4bf3-a5bf-d771cabe8cf5.svg" alt=""></div>
         <span class="card-item__label">Elevador de carga para entregas seguras</span>
       </div>
       <div class="card-item">
+        <img class="card-item__bg" src="assets/img/9d6ef2d5-cb19-4985-be5b-ecc18e231254.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/ef4ec445-b1a8-4fcb-a95a-65147bee6f0e.svg" alt=""></div>
         <span class="card-item__label">Varandas generosas com vista para o Vale</span>
       </div>
       <div class="card-item">
+        <img class="card-item__bg" src="assets/img/7f3019c4-68bb-4910-bf0e-b035774eadc6.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/7b95fc90-5b64-4dd5-8bb6-d99f74d29738.svg" alt=""></div>
         <span class="card-item__label">Salão de festas integrado ao pilotis</span>
       </div>
       <div class="card-item">
+        <img class="card-item__bg" src="assets/img/ed576d95-f6e3-4cb0-aec3-d64500153d48.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/9022ef85-dd7d-41a2-a343-20f41625b281.svg" alt=""></div>
         <span class="card-item__label">Vaga para car wash e oficina privativa</span>
       </div>
       <div class="card-item">
+        <img class="card-item__bg" src="assets/img/022628b3-c619-4f24-90f4-8647ac6b51af.webp" alt="" loading="lazy">
         <div class="card-item__icon"><img src="assets/img/b5e387b1-c5c0-45d9-8bfc-15084f24e6bf.svg" alt=""></div>
         <span class="card-item__label">Academia com vista panorâmica</span>
       </div>
@@ -2009,33 +2069,6 @@
 <!-- Lenis (smooth scroll) -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.21/dist/lenis.min.js"></script>
 <script>
-  /* ===== Dynamic config loader (assets/config.json) ===== */
-  /* Aplica WhatsApp + Instagram + LinkedIn URLs no boot.
-     Permite editar via /admin.html sem recompilar o site. */
-  (function(){
-    fetch('assets/config.json?t=' + Date.now())
-      .then((r) => r.ok ? r.json() : null)
-      .then((cfg) => {
-        if (!cfg) return;
-        if (cfg.whatsapp_number && cfg.whatsapp_message) {
-          const wa = `https://wa.me/${cfg.whatsapp_number}?text=${encodeURIComponent(cfg.whatsapp_message)}`;
-          document.querySelectorAll('a[href*="wa.me"]').forEach((a) => { a.href = wa; });
-        }
-        const social = document.querySelectorAll('.footer-social__item');
-        if (social[0] && cfg.instagram_url) {
-          social[0].href = cfg.instagram_url;
-          social[0].target = '_blank';
-          social[0].rel = 'noopener';
-        }
-        if (social[1] && cfg.linkedin_url) {
-          social[1].href = cfg.linkedin_url;
-          social[1].target = '_blank';
-          social[1].rel = 'noopener';
-        }
-      })
-      .catch(() => {});
-  })();
-
   /* ===== Hero video — HTML5 nativo, fade-out fallback + play/pause toggle ===== */
   (function(){
     const heroMedia = document.querySelector('.hero-media');

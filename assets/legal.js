@@ -3,7 +3,6 @@
    - Reading progress bar
    - Back-to-top button
    - TOC active section highlight (IntersectionObserver)
-   - Config dinâmico (mesma lógica do index)
 ============================================================ */
 (function () {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -85,28 +84,4 @@
     });
   }
 
-  /* ---------- 4. Config dinâmico (links WhatsApp / IG / LinkedIn) ---------- */
-  fetch('assets/config.json?t=' + Date.now())
-    .then((r) => (r.ok ? r.json() : null))
-    .then((cfg) => {
-      if (!cfg) return;
-      if (cfg.whatsapp_number && cfg.whatsapp_message) {
-        const wa = `https://wa.me/${cfg.whatsapp_number}?text=${encodeURIComponent(cfg.whatsapp_message)}`;
-        document.querySelectorAll('a[href*="wa.me"]').forEach((a) => {
-          a.href = wa;
-        });
-      }
-      const social = document.querySelectorAll('.footer-social__item');
-      if (social[0] && cfg.instagram_url) {
-        social[0].href = cfg.instagram_url;
-        social[0].target = '_blank';
-        social[0].rel = 'noopener';
-      }
-      if (social[1] && cfg.linkedin_url) {
-        social[1].href = cfg.linkedin_url;
-        social[1].target = '_blank';
-        social[1].rel = 'noopener';
-      }
-    })
-    .catch(() => {});
 })();
